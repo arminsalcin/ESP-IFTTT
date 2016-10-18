@@ -6,7 +6,6 @@
 #define SERIAL_DEBUG // Uncomment this to dissable serial debugging
 
 // define gpio pins here:
-#define NUMBER_OF_SENSORS 2 // THIS MUST MATCH THE NUMBER OF SENSORS IN THE SENSOR ARRAY / NO MORE THAN 3
 #define DHTPIN 2     // what pin we're connected to
 #define DHTTYPE DHT22   // DHT 22  (AM2302)
 
@@ -28,8 +27,6 @@ DataToMaker event(myKey, projectName);
 DHT dht(DHTPIN, DHTTYPE);
 
 // LEAVE SET
-
-int pvsValues[NUMBER_OF_SENSORS];
 bool connectedToWiFI = false;
 
 void setup()
@@ -48,16 +45,15 @@ void setup()
 }
 
 void loop() {
-  if (wifiConnected)
-  {
-    float h = dht.readHumidity();
+  if (wifiConnected){
+    
+  float h = dht.readHumidity();
   float t = dht.readTemperature();
   event.setValue(1,String(t));
   event.setValue(2,String(h));
   
       debugln("connecting...");
-      if (event.connect())
-      {
+      if (event.connect()){
         debugln("Connected To Maker");
         event.post();
       }
